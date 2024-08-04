@@ -15,13 +15,13 @@ Repository related to CENG383 course I have taken in IZTECH
 11. Designing Real-Time Operating System-II (OSX-383)
 12. Labaratory Work 
 13. Labaratory Work
-14. 
+
 <details>
   
   <summary>Click here to see course textbooks</summary>
   
-  ## Some Useful Textbooks for Cryptography
+  ## Some Useful Textbooks for Reel Time Systems
   
-  [Cryptography and Network Security by William Stallings](Textbooks/TEXTBOOK.pdf).
+  [Course textbooks](textbooks.zip).
 
 </details>  
