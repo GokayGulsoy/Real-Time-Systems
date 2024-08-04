@@ -22,6 +22,6 @@ Repository related to CENG383 course I have taken in IZTECH
   
   ## Some Useful Textbooks for Reel Time Systems
   
-  [Course textbooks](textbooks.zip).
+  [Course textbooks](Textbooks.zip).
 
 </details>  
