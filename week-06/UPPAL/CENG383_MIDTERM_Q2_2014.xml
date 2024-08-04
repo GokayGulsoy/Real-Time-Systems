@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan open;
+chan close;
+clock x;</declaration>
+	<template>
+		<name>User</name>
+		<location id="id0" x="-212" y="-34">
+			<name x="-255" y="-59">IDLE</name>
+		</location>
+		<location id="id1" x="-102" y="-76">
+			<name x="-112" y="-110">PRESSED_OPEN</name>
+			<urgent/>
+		</location>
+		<location id="id2" x="-102" y="25">
+			<name x="-112" y="-9">PRESSED_CLOSE</name>
+			<urgent/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id3">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<nail x="-161" y="59"/>
+			<nail x="-221" y="17"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<nail x="-136" y="-127"/>
+			<nail x="-212" y="-93"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-195" y="0">close!</label>
+		</transition>
+		<transition id="id6">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-187" y="-85">open!</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Door</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id7" x="-204" y="-51">
+			<name x="-214" y="-85">CLOSED</name>
+		</location>
+		<location id="id8" x="-25" y="-51">
+			<name x="-51" y="-85">OPENING</name>
+			<label kind="invariant" x="-51" y="-34">x&lt;=5</label>
+		</location>
+		<location id="id9" x="161" y="-51">
+			<name x="151" y="-85">OPEN</name>
+		</location>
+		<location id="id10" x="59" y="110">
+			<name x="59" y="76">CLOSING</name>
+			<label kind="invariant" x="49" y="127">x&lt;=5</label>
+		</location>
+		<init ref="id7"/>
+		<transition id="id11">
+			<source ref="id10"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-110" y="25">x==5</label>
+		</transition>
+		<transition id="id12">
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="127" y="59">close?</label>
+			<label kind="assignment" x="170" y="85">x:=0</label>
+			<nail x="212" y="42"/>
+			<nail x="119" y="136"/>
+		</transition>
+		<transition id="id13">
+			<source ref="id8"/>
+			<target ref="id10"/>
+			<label kind="guard" x="-25" y="0">x&lt;5</label>
+			<label kind="synchronisation" x="17" y="8">close?</label>
+			<label kind="assignment" x="-25" y="17">x:=0</label>
+		</transition>
+		<transition id="id14">
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="guard" x="51" y="-76">x==5</label>
+		</transition>
+		<transition id="id15">
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-153" y="-76">open?</label>
+			<label kind="assignment" x="-153" y="-51">x:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+door = Door();
+user = User();
+// List one or more processes to be composed into a system.
+system door, user;
+</system>
+	<queries>
+		<query>
+			<formula>A[] (door.CLOSING imply not door.OPENING)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-18 10:46:43 +0300">
+			</result>
+		</query>
+	</queries>
+</nta>

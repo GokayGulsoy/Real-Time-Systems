@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+broadcast chan Push;
+clock x;</declaration>
+	<template>
+		<name>User</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-144" y="-25">
+			<name x="-153" y="-8">idle</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id1">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-161" y="-127">Push!</label>
+			<nail x="-102" y="-102"/>
+			<nail x="-178" y="-102"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Light</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id2" x="-204" y="-8">
+			<name x="-238" y="-34">Off</name>
+		</location>
+		<location id="id3" x="-85" y="-8">
+			<name x="-102" y="-51">light</name>
+		</location>
+		<location id="id4" x="25" y="-8">
+			<name x="34" y="-34">bright</name>
+		</location>
+		<init ref="id2"/>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-144" y="59">x&gt;3</label>
+			<label kind="synchronisation" x="-153" y="34">Push?</label>
+			<nail x="-102" y="59"/>
+			<nail x="-170" y="59"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-119" y="-153">Push?</label>
+			<nail x="-25" y="-127"/>
+			<nail x="-170" y="-127"/>
+			<nail x="-204" y="-25"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-42" y="0">x&lt;=3</label>
+			<label kind="synchronisation" x="-51" y="-34">Push?</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-161" y="-34">Push?</label>
+			<label kind="assignment" x="-161" y="-8">x:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Light1 = Light();
+Light2 = Light(); 
+User1 = User();
+
+// List one or more processes to be composed into a system.
+system User1, Light1,Light2;
+</system>
+	<queries>
+		<query>
+			<formula/>
+			<comment/>
+		</query>
+	</queries>
+</nta>

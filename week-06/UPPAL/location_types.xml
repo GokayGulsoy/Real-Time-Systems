@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+</declaration>
+	<template>
+		<name>Commit</name>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id0" x="-102" y="-8">
+			<name x="-112" y="-42">S2</name>
+			<committed/>
+		</location>
+		<location id="id1" x="16" y="-8">
+			<name x="6" y="-42">S3</name>
+		</location>
+		<location id="id2" x="-221" y="-8">
+			<name x="-231" y="-42">S1</name>
+		</location>
+		<init ref="id2"/>
+		<transition id="id3">
+			<source ref="id0"/>
+			<target ref="id1"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<nail x="-213" y="-8"/>
+		</transition>
+	</template>
+	<template>
+		<name>Urgent</name>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id5" x="-212" y="17">
+			<name x="-222" y="-17">S1</name>
+		</location>
+		<location id="id6" x="-93" y="17">
+			<name x="-103" y="-17">S2</name>
+			<urgent/>
+		</location>
+		<location id="id7" x="25" y="17">
+			<name x="15" y="-17">S3</name>
+		</location>
+		<init ref="id5"/>
+		<transition id="id8">
+			<source ref="id6"/>
+			<target ref="id7"/>
+		</transition>
+		<transition id="id9">
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<nail x="-204" y="17"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Normal</name>
+		<declaration>// Place local declarations here.
+clock x;</declaration>
+		<location id="id10" x="-238" y="-8">
+			<name x="-248" y="-42">S1</name>
+		</location>
+		<location id="id11" x="-102" y="-8">
+			<name x="-112" y="-42">S2</name>
+		</location>
+		<location id="id12" x="34" y="-8">
+			<name x="24" y="-42">S3</name>
+		</location>
+		<init ref="id10"/>
+		<transition id="id13">
+			<source ref="id11"/>
+			<target ref="id12"/>
+		</transition>
+		<transition id="id14">
+			<source ref="id10"/>
+			<target ref="id11"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Normal();
+P2 = Urgent();
+P3 = Commit();
+
+// List one or more processes to be composed into a system.
+system P1, P2, P3;
+</system>
+	<queries>
+	</queries>
+</nta>

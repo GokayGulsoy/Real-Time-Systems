@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan reset;
+clock x;
+</declaration>
+	<template>
+		<name>Observable</name>
+		<location id="id0" x="-212" y="-17">
+			<name x="-238" y="-51">idle</name>
+			<label kind="invariant" x="-238" y="0">x&lt;=3</label>
+		</location>
+		<location id="id1" x="-68" y="-17">
+			<name x="-68" y="-51">taken</name>
+			<committed/>
+		</location>
+		<init ref="id0"/>
+		<transition id="id2">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-160" y="34">x=0</label>
+			<nail x="-110" y="34"/>
+			<nail x="-178" y="34"/>
+		</transition>
+		<transition id="id3">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-161" y="-110">reset?</label>
+			<nail x="-170" y="-85"/>
+			<nail x="-102" y="-85"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Observer</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id4" x="0" y="0">
+		</location>
+		<init ref="id4"/>
+		<transition id="id5">
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="51" y="-59">x==2</label>
+			<label kind="synchronisation" x="51" y="-34">reset!</label>
+			<nail x="34" y="-76"/>
+			<nail x="51" y="8"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Observer1 = Observer();
+Observable1 = Observable();
+// List one or more processes to be composed into a system.
+system Observer1, Observable1;
+</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-04-04 10:52:12 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>A[] x&gt;= 2</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-04-04 11:17:28 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>A[] Observable1.idle imply x&gt;=2</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-04-04 11:21:22 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>A[] Observable1.taken imply (x&gt;=2 and x&lt;=3)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-04 11:28:42 +0300">
+			</result>
+		</query>
+	</queries>
+</nta>

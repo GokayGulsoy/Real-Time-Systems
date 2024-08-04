@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+// defining synchronization chanels
+chan seated;
+chan belted;
+chan notseated;
+chan notbelted;
+
+// defining clock variable
+clock x;</declaration>
+	<template>
+		<name>Controller</name>
+		<location id="id0" x="-153" y="8">
+			<name x="-187" y="-25">IDLE</name>
+		</location>
+		<location id="id1" x="-42" y="8">
+			<name x="-68" y="-25">SEATED</name>
+			<label kind="invariant" x="-59" y="25">x&lt;=5</label>
+		</location>
+		<location id="id2" x="-42" y="127">
+			<name x="-68" y="93">BUZZER</name>
+		</location>
+		<location id="id3" x="153" y="42">
+			<name x="153" y="8">BELTED</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id4">
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-161" y="59">notseated?</label>
+			<nail x="-102" y="59"/>
+			<nail x="-144" y="59"/>
+		</transition>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-34" y="-110">notseated?</label>
+			<nail x="136" y="-85"/>
+			<nail x="-102" y="-93"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="51" y="-34">belted?</label>
+			<nail x="17" y="-17"/>
+			<nail x="119" y="0"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id3"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="25" y="0">notbelted?</label>
+			<label kind="assignment" x="51" y="34">x=0</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="34" y="178">belted?</label>
+			<nail x="51" y="178"/>
+			<nail x="136" y="178"/>
+		</transition>
+		<transition id="id9">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="25" y="68">x&gt;=5</label>
+			<nail x="17" y="51"/>
+			<nail x="17" y="102"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-136" y="8">seated?</label>
+			<label kind="assignment" x="-119" y="-17">x=0</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">Driver</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id11" x="-459" y="0">
+			<name x="-493" y="-34">IDLE</name>
+		</location>
+		<location id="id12" x="-357" y="0">
+			<name x="-367" y="-34">SEATED</name>
+		</location>
+		<location id="id13" x="-246" y="0">
+			<name x="-256" y="-34">BELTED</name>
+		</location>
+		<init ref="id11"/>
+		<transition id="id14">
+			<source ref="id13"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-374" y="-161">notseated!</label>
+			<nail x="-178" y="-8"/>
+			<nail x="-212" y="-136"/>
+			<nail x="-501" y="-136"/>
+			<nail x="-501" y="0"/>
+		</transition>
+		<transition id="id15">
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-340" y="42">notbelted!</label>
+			<nail x="-280" y="42"/>
+			<nail x="-340" y="42"/>
+		</transition>
+		<transition id="id16">
+			<source ref="id12"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="-450" y="42">notseated!</label>
+			<nail x="-382" y="42"/>
+			<nail x="-433" y="42"/>
+		</transition>
+		<transition id="id17">
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-323" y="-76">belted!</label>
+			<nail x="-314" y="-51"/>
+			<nail x="-272" y="-51"/>
+		</transition>
+		<transition id="id18">
+			<source ref="id11"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-433" y="-76">seated!</label>
+			<nail x="-433" y="-51"/>
+			<nail x="-374" y="-51"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+driver = Driver(); 
+car = Controller();
+// List one or more processes to be composed into a system.
+system driver, car;
+</system>
+	<queries>
+		<query>
+			<formula>A[] (driver.SEATED &amp;&amp; ((car.SEATED &amp;&amp; x&lt;=5) || (car.BUZZER &amp;&amp; x&gt;=5))) || (car.IDLE &amp;&amp; driver.IDLE) 
+|| (car.BELTED &amp;&amp; driver.BELTED)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-17 15:16:59 +0300">
+			</result>
+		</query>
+	</queries>
+</nta>

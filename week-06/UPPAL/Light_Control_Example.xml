@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan Press;
+clock x;
+// int y = 0;</declaration>
+	<template>
+		<name>user</name>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-178" y="-17">
+			<name x="-204" y="-51">idle</name>
+		</location>
+		<init ref="id0"/>
+		<transition id="id1">
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-119" y="-59">Press!</label>
+			<nail x="-136" y="-68"/>
+			<nail x="-119" y="-25"/>
+		</transition>
+	</template>
+	<template>
+		<name x="9" y="9">lamp</name>
+		<declaration>// Place local declarations here.
+</declaration>
+		<location id="id2" x="-238" y="0">
+			<name x="-272" y="-25">off</name>
+		</location>
+		<location id="id3" x="-102" y="0">
+			<name x="-110" y="-34">light</name>
+		</location>
+		<location id="id4" x="17" y="0">
+			<name x="17" y="-34">bright</name>
+		</location>
+		<init ref="id2"/>
+		<transition id="id5">
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-110" y="43">x&gt;=3</label>
+			<label kind="synchronisation" x="-212" y="51">Press?</label>
+			<nail x="-119" y="68"/>
+			<nail x="-229" y="68"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id4"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-204" y="-136">Press?</label>
+			<nail x="-25" y="-119"/>
+			<nail x="-221" y="-119"/>
+			<nail x="-221" y="-119"/>
+		</transition>
+		<transition id="id7">
+			<source ref="id3"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-51" y="0">x&lt;=3</label>
+			<label kind="synchronisation" x="-85" y="-17">Press?</label>
+		</transition>
+		<transition id="id8">
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-221" y="-17">Press?</label>
+			<label kind="assignment" x="-221" y="0">x:=0</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+lamp1 = lamp();
+user1 = user();
+// List one or more processes to be composed into a system.
+system lamp1,user1;
+</system>
+	<queries>
+		<query>
+			<formula>A[] (x &gt;= 0)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-03 23:21:43 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-03 23:17:49 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; lamp1.light</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-04-03 23:30:09 +0300">
+			</result>
+		</query>
+		<query>
+			<formula>A[] x&lt;= 3 imply lamp1.bright</formula>
+			<comment/>
+			<result outcome="failure" type="quality" timestamp="2024-04-03 23:32:50 +0300">
+			</result>
+		</query>
+	</queries>
+</nta>
